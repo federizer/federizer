@@ -1619,8 +1619,9 @@
       </g>
       <g class="com.sun.star.drawing.ConnectorShape">
        <g id="id22">
-        <rect class="BoundingBox" stroke="none" fill="none" x="14562" y="14356" width="6802" height="1690"/>
-        <path fill="none" stroke="rgb(0,0,0)" d="M 21362,14357 L 14563,16044"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="14563" y="14356" width="6801" height="1764"/>
+        <path fill="none" stroke="rgb(0,0,0)" d="M 21362,14357 L 14839,15975"/>
+        <path fill="rgb(0,0,0)" stroke="none" d="M 14896,16119 L 14563,16044 14822,15823 14896,16119 Z"/>
        </g>
       </g>
       <g class="com.sun.star.drawing.CustomShape">
@@ -2498,13 +2499,13 @@
       </g>
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id38">
-        <rect class="BoundingBox" stroke="none" fill="none" x="1913" y="19240" width="7963" height="856"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="1912" y="19240" width="7964" height="856"/>
         <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="2163" y="19864"><tspan font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Message Handling Service (MHS)</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id39">
-        <rect class="BoundingBox" stroke="none" fill="none" x="1914" y="20162" width="8017" height="856"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="1913" y="20162" width="8018" height="856"/>
         <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="2164" y="20786"><tspan font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Resource Handling Service (RHS)</tspan></tspan></tspan></text>
        </g>
       </g>
@@ -2885,7 +2886,7 @@
       </g>
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id65">
-        <rect class="BoundingBox" stroke="none" fill="none" x="1965" y="22055" width="7108" height="856"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="1966" y="22055" width="7107" height="856"/>
         <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="2216" y="22679"><tspan font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">r – recipient-focused functions</tspan></tspan></tspan></text>
        </g>
       </g>
@@ -3242,19 +3243,19 @@
       </g>
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id68">
-        <rect class="BoundingBox" stroke="none" fill="none" x="28266" y="18331" width="8281" height="856"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="28266" y="18330" width="8281" height="857"/>
         <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="28516" y="18955"><tspan font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Message Delivery Agent</tspan></tspan><tspan class="TextPosition" x="34866" y="18955"><tspan font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">(MDA)</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id69">
-        <rect class="BoundingBox" stroke="none" fill="none" x="28250" y="20399" width="8281" height="856"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="28250" y="20398" width="8281" height="857"/>
         <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="28500" y="21023"><tspan font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Mail Resource Store</tspan></tspan><tspan class="TextPosition" x="34850" y="21023"><tspan font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">(MRS)</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id70">
-        <rect class="BoundingBox" stroke="none" fill="none" x="28265" y="19029" width="8145" height="857"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="28265" y="19030" width="8145" height="856"/>
         <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="28515" y="19654"><tspan font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Resource Fetch Agent</tspan></tspan><tspan class="TextPosition" x="34865" y="19654"><tspan font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">(RFA)</tspan></tspan></tspan></text>
        </g>
       </g>
