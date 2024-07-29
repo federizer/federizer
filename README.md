@@ -1,10 +1,11 @@
 # Federizer
-Internet Mail System
+
+Authorization-Enhanced Internet Mail
 
 ## Architecture
 
-![Revised Internet Mail Architecture](docs/src/main/images/architecture.svg)
+![Authorization-Enhanced Internet Mail Architecture](docs/src/main/images/architecture.svg)
 
 <p class="figure">
-    Fig.&nbsp;1.&emsp;The revised Internet mail architecture
+    Fig.&nbsp;1.&emsp;The authorization-enhanced Internet mail architecture
 </p>
