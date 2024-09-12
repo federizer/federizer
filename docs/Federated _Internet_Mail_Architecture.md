@@ -1,4 +1,4 @@
-# Internet Mail Architecture
+# Federated Internet Mail Architecture
 
 ![RFC5598 Sequence Diagram](../docs/resources/rfc5598_sd.puml)
 
