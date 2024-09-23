@@ -1,9 +1,9 @@
 # Federizer
 
-## Federated Internet Mail Architecture
+## Authorization-Enhanced Internet Mail Architecture
 
-![Federated Internet Mail Architecture](docs/src/main/images/federated_rfc5598.svg)
+![Authorization-Enhanced Internet Mail Architecture](docs/src/main/images/authorization-enhanced_rfc5598.svg)
 
 <p class="figure">
-    Fig.&nbsp;1.&emsp;The federated Internet mail architecture
+    Fig.&nbsp;1.&emsp;The authorization-enhanced internet mail architecture
 </p>
