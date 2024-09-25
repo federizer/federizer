@@ -1,0 +1,36 @@
+@startuml Internet Mail Architecture (rfc5598), message flow part I.
+
+/'
+Message
+Message User Agent (MUA)
+    Author MUA (aMUA)
+    Recipient MUA (rMUA)
+Message Submission Agent (MSA)
+    Author-focused MSA functions (aMSA)
+    MHS-focused MSA functions (hMSA)
+Message Transfer Agent (MTA)
+Message Delivery Agent (MDA)
+    Recipient-focused MDA functions (rMDA)
+    MHS-focused MDA functions (hMDA)
+Message Store (MS)
+    Author MS (aMS)
+    Recipient MS (rMS)
+    User Agent MS (uMS)
+'/
+
+'ADMD I.
+participant "aMUA/uMS" as aMUA /'MUA, uMS'/
+participant "aMS" as aMS /'Author MS'/
+box "MSA"
+participant "aMSA" as aMSA /'Author-focused MSA'/
+participant "hMSA" as hMSA /'MHS-focused MSA'/
+end box
+participant "MTA" as MTA /'MTA'/
+
+aMUA -> aMS : 1. Message archiving/sync (local, imap)
+aMUA -> aMSA : 2. Message submission (smtp)
+aMSA -> hMSA : 3. Posting (S) transition
+hMSA -> MTA : 4. Message transfer (smtp)
+MTA ->] : 5. Message transfer (smtp)
+
+@enduml

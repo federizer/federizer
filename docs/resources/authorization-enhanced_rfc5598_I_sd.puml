@@ -1,0 +1,39 @@
+@startuml Authorization-Enhanced Internet Mail Architecture, message flow part I.
+
+/'
+Message
+Message User Agent (MUA)
+    Author MUA (aMUA)
+    Recipient MUA (rMUA)
+Message Submission Agent (MSA)
+    Author-focused MSA functions (aMSA)
+    MHS-focused MSA functions (hMSA)
+Message Transfer Agent (MTA)
+Message Delivery Agent (MDA)
+    Recipient-focused MDA functions (rMDA)
+    MHS-focused MDA functions (hMDA)
+Mail Resource Store (MRS)
+    Author MRS (aMRS)
+    Recipient MRS (rMRS)    
+    User Agent MRS (uMRS)
+'/
+
+'ADMD I.
+participant "aMUA/uMRS" as aMUA /'MUA, uMRS'/
+participant "aMRS" as aMRS /'Author MRS'/
+box "MSA"
+participant "aMSA" as aMSA /'Author-focused MSA'/
+participant "hMSA" as hMSA /'MHS-focused MSA'/
+end box
+participant "MTA" as MTA /'MTA'/
+
+aMUA -> aMRS : 1. Mail resources archiving/sync (local, imap)
+aMUA -> aMSA : 2. Placeholder message submission (smtp)
+aMSA -> hMSA : 3. Posting (S) transition
+hMSA -> MTA : 4. Placeholder message transfer (smtp)
+MTA ->] : 5. Placeholder message transfer (smtp)
+aMRS <-] : a. Sync mail resources request (http)
+aMRS -->] : b. Sync mail resources response (http)
+
+@enduml
+
