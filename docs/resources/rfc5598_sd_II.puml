@@ -25,7 +25,7 @@ participant "hMDA" as hMDA /'MHS-focused MDA'/
 participant "rMDA" as rMDA /'Recipient-focused MDA'/
 end box
 participant "rMS" as rMS /'Recipient MS'/
-participant "rMUA/uMS" as rMUA /'MUA, uMS'/
+participant "rMUA" as rMUA /'MUA, uMS optional'/
 
 [-> MTA : 5. Message transfer (smtp)
 MTA -> hMDA : 6. Message transfer (local, smtp, lmtp)

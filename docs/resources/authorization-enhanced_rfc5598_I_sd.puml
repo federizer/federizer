@@ -19,7 +19,7 @@ Mail Resource Store (MRS)
 '/
 
 'ADMD I.
-participant "aMUA/uMRS" as aMUA /'MUA, uMRS'/
+participant "aMUA" as aMUA /'MUA, uMRS optional'/
 participant "aMRS" as aMRS /'Author MRS'/
 box "MSA"
 participant "aMSA" as aMSA /'Author-focused MSA'/

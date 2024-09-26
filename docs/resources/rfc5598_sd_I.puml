@@ -19,7 +19,7 @@ Message Store (MS)
 '/
 
 'ADMD I.
-participant "aMUA/uMS" as aMUA /'MUA, uMS'/
+participant "aMUA" as aMUA /'MUA, uMS optional'/
 participant "aMS" as aMS /'Author MS'/
 box "MSA"
 participant "aMSA" as aMSA /'Author-focused MSA'/

@@ -26,7 +26,7 @@ participant "rMDA" as rMDA /'Recipient-focused MDA'/
 end box
 participant "rRFA" as rRFA /'Recipient RFA'/
 participant "rMRS" as rMRS /'Recipient MRS'/
-participant "rMUA/uMRS" as rMUA /'MUA, uMRS'/
+participant "rMUA" as rMUA /'MUA, uMRS optional'/
 
 [-> MTA : 5. Placeholder message transfer (smtp)
 MTA -> hMDA : 6. Placeholder message transfer (local, smtp, lmtp)
