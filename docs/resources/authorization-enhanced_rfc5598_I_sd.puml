@@ -36,7 +36,7 @@ aMUA -> aMSA : 2.1 Placeholder message submission (smtp)
 aMSA -> hMSA : 2.2 Posting (S) transition
 hMSA -> MTA : 3.1 Placeholder message transfer (smtp)
 MTA ->] : 3.2 Placeholder message transfer (smtp)
-aMRS <-] : a) Fetch (sync) mail resources request (http)
+aMRS <-] : a) Fetch (sync) mail resources request (http), using the Internet Mail Federation Protocol
 aMRS -->] : b) Fetch (sync) mail resources response (http)
 
 @enduml

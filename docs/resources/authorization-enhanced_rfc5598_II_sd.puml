@@ -35,7 +35,7 @@ participant "rMUA" as rMUA /'MUA, uMRS optional'/
 MTA -> hMDA : 3.3 Placeholder message transfer (local, smtp, lmtp)
 hMDA -> rMDA : 4.1 Delivery (D) transition
 rMDA -> rMRS : 4.2 Placeholder message delivery (local, smtp)
-rMRS ->[ : a) Fetch (sync) mail resources request (http)
+rMRS ->[ : a) Fetch (sync) mail resources request (http), using the Internet Mail Federation Protocol
 rMRS <--[ : b) Fetch (sync) mail resources response (http)
 rMRS -> rMUA : 5 Mail resources retrieval/sync (local, pop, imap, http)
 
