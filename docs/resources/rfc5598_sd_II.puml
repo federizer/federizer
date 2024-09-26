@@ -27,11 +27,11 @@ end box
 participant "rMS" as rMS /'Recipient MS'/
 participant "rMUA" as rMUA /'MUA, uMS optional'/
 
-[-> MTA : 5. Message transfer (smtp)
-MTA -> hMDA : 6. Message transfer (local, smtp, lmtp)
-hMDA -> rMDA : 7. Delivery (D) transition
-rMDA -> rMS : 8. Message delivery (local, smtp)
-rMS -> rMUA : 9. Message retrieval/sync (local, pop, imap)
+[-> MTA : 3.2 Message transfer (smtp)
+MTA -> hMDA : 3.3 Message transfer (local, smtp, lmtp)
+hMDA -> rMDA : 4.1 Delivery (D) transition
+rMDA -> rMS : 4.2 Message delivery (local, smtp)
+rMS -> rMUA : 5 Message retrieval/sync (local, pop, imap)
 
 @enduml
 
