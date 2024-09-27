@@ -12,7 +12,7 @@ Message Transfer Agent (MTA)
 Message Delivery Agent (MDA)
     Recipient-focused MDA functions (rMDA)
     MHS-focused MDA functions (hMDA)
-Resource Fetch Agent (RFA)
+Resource Sync Agent (RSA)
 Resource Access Agent (RAA)    
 Mail Resource Store (MRS)
     Author MRS (aMRS)
@@ -26,7 +26,7 @@ box "MDA" /'MDA'/
 participant "hMDA" as hMDA /'MHS-focused MDA'/
 participant "rMDA" as rMDA /'Recipient-focused MDA'/
 end box
-box "RFA, RAA" /'Resource Fetch Agent, Resource Access Agent'/
+box "RSA, RAA" /'Resource Sync Agent, Resource Access Agent'/
 participant "rMRS" as rMRS /'Recipient MRS'/
 end box
 participant "rMUA" as rMUA /'MUA, uMRS optional'/
@@ -35,8 +35,8 @@ participant "rMUA" as rMUA /'MUA, uMRS optional'/
 MTA -> hMDA : 3.3 Placeholder message transfer (local, smtp, lmtp)
 hMDA -> rMDA : 4.1 Delivery (D) transition
 rMDA -> rMRS : 4.2 Placeholder message delivery (local, smtp)
-rMRS ->[ : a) Fetch (sync) mail resources request (http), using the Internet Mail Federation Protocol
-rMRS <--[ : b) Fetch (sync) mail resources response (http)
+rMRS ->[ : a) Mail resources sync request (http), using Internet Mail Federation Protocol
+rMRS <--[ : b) Mail resources sync response (http)
 rMRS -> rMUA : 5 Mail resources retrieval/sync (local, pop, imap, http)
 
 @enduml

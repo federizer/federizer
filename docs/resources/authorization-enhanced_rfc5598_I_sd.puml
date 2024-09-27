@@ -12,7 +12,7 @@ Message Transfer Agent (MTA)
 Message Delivery Agent (MDA)
     Recipient-focused MDA functions (rMDA)
     MHS-focused MDA functions (hMDA)
-Resource Fetch Agent (RFA)
+Resource Sync Agent (RSA)
 Resource Access Agent (RAA)
 Mail Resource Store (MRS)
     Author MRS (aMRS)
@@ -36,8 +36,8 @@ aMUA -> aMSA : 2.1 Placeholder message submission (smtp)
 aMSA -> hMSA : 2.2 Posting (S) transition
 hMSA -> MTA : 3.1 Placeholder message transfer (smtp)
 MTA ->] : 3.2 Placeholder message transfer (smtp)
-aMRS <-] : a) Fetch (sync) mail resources request (http), using the Internet Mail Federation Protocol
-aMRS -->] : b) Fetch (sync) mail resources response (http)
+aMRS <-] : a) Mail resources sync request (http), using Internet Mail Federation Protocol
+aMRS -->] : b) Mail resources sync response (http)
 
 @enduml
 
