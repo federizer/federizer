@@ -17,11 +17,10 @@ Resource Access Agent (RAA)
 Mail Resource Store (MRS)
     Author MRS (aMRS)
     Recipient MRS (rMRS)    
-    User Agent MRS (uMRS)
 '/
 
 'ADMD I.
-participant "aMUA" as aMUA /'MUA, uMRS optional'/
+participant "aMUA" as aMUA /'MUA'/
 box "RAA" /'Resource Access Agent'/
 participant "aMRS" as aMRS /'Author MRS'/
 end box

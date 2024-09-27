@@ -17,7 +17,6 @@ Resource Access Agent (RAA)
 Mail Resource Store (MRS)
     Author MRS (aMRS)
     Recipient MRS (rMRS)    
-    User Agent MRS (uMRS)
 '/
 
 'ADMD II.
@@ -29,7 +28,7 @@ end box
 box "RSA, RAA" /'Resource Sync Agent, Resource Access Agent'/
 participant "rMRS" as rMRS /'Recipient MRS'/
 end box
-participant "rMUA" as rMUA /'MUA, uMRS optional'/
+participant "rMUA" as rMUA /'MUA'/
 
 [-> MTA : 3.2 Placeholder message transfer (smtp)
 MTA -> hMDA : 3.3 Placeholder message transfer (local, smtp, lmtp)
