@@ -36,6 +36,6 @@ hMDA -> rMDA : 4.1 Delivery (D) transition
 rMDA -> rMRS : 4.2 Placeholder message delivery (local, smtp)
 rMRS ->[ : a) Mail resources retrieval using an http GET request
 rMRS <--[ : b) Mail resources retrieval http response
-rMRS -> rMUA : 5 Placeholder message and mail resources retrieval (local, pop, imap, http)
+rMRS -> rMUA : 5 Fetch placeholder message and mail resources (local, pop, imap, http)
 
 @enduml

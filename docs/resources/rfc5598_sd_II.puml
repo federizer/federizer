@@ -31,7 +31,7 @@ participant "rMUA" as rMUA /'MUA, uMS optional'/
 MTA -> hMDA : 3.3 Message transfer (local, smtp, lmtp)
 hMDA -> rMDA : 4.1 Delivery (D) transition
 rMDA -> rMS : 4.2 Message delivery (local, smtp)
-rMS -> rMUA : 5 Message retrieval/sync (local, pop, imap)
+rMS -> rMUA : 5 Fetch message (local, pop, imap)
 
 @enduml
 

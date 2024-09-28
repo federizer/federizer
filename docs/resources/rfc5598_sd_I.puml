@@ -27,7 +27,7 @@ participant "hMSA" as hMSA /'MHS-focused MSA'/
 end box
 participant "MTA" as MTA /'MTA'/
 
-aMUA -> aMS : 1 Message archiving/sync (local, imap)
+aMUA -> aMS : 1 Store message (local, imap)
 aMUA -> aMSA : 2.1 Message submission (smtp)
 aMSA -> hMSA : 2.2 Posting (S) transition
 hMSA -> MTA : 3.1 Message transfer (smtp)
