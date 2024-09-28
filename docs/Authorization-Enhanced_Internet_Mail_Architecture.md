@@ -32,8 +32,8 @@ An example of placeholder message in JSON format with external bodies accessible
 {
   "headers":
     {
-      "X-Origin-MRS-URL": "https://foo.com/mrs",
-      "X-Destination-MRS-URL": "https://bar.com/mrs",
+      "X-Author-RS-URL": "https://foo.com/rs",
+      "X-Recipient-RS-URL": "https://bar.com/rs",
       "From": "Alice Sanders <alice@foo.com>",
       "Subject": "Meeting",
       "To": "Bob Sanders <bob@bar.com>",

@@ -12,8 +12,8 @@ Message Transfer Agent (MTA)
 Message Delivery Agent (MDA)
     Recipient-focused MDA functions (rMDA)
     MHS-focused MDA functions (hMDA)
+Resource Server (RS)    
 Resource Retrieval Agent (RRA)
-Resource Access Agent (RAA)    
 Mail Resource Store (MRS)
     Author MRS (aMRS)
     Recipient MRS (rMRS)    
@@ -25,7 +25,7 @@ box "MDA" /'MDA'/
 participant "hMDA" as hMDA /'MHS-focused MDA'/
 participant "rMDA" as rMDA /'Recipient-focused MDA'/
 end box
-box "RRA, RAA" /'Resource Retrieval Agent, Resource Access Agent'/
+box "rRS, RRA" /'Recipient Resource Server, Resource Retrieval Agent'/
 participant "rMRS" as rMRS /'Recipient MRS'/
 end box
 participant "rMUA" as rMUA /'MUA'/
