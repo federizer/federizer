@@ -16,13 +16,17 @@
 
 ![Authorization-Enhanced RFC5598 Sequence Diagram Part I.](../docs/resources/authorization-enhanced_rfc5598_I_sd.puml)
 <p class="figure">
-    Fig.&nbsp;3.&emsp;Authorization-Enhanced Internet mail architecture, message flow part I.
+    Fig.&nbsp;3.&emsp;Authorization-Enhanced Internet mail architecture, message and resources flow part I.
 </p>
 
 ![Authorization-Enhanced RFC5598 Sequence Diagram Part II.](../docs/resources/authorization-enhanced_rfc5598_II_sd.puml)
 <p class="figure">
-    Fig.&nbsp;4.&emsp;Authorization-Enhanced Internet mail architecture, message flow part II.
+    Fig.&nbsp;4.&emsp;Authorization-Enhanced Internet mail architecture, message and resources flow part II.
 </p>
+
+#### *Key Points*
+
+TBD
 
 ## Placeholder Message
 
