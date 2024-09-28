@@ -19,7 +19,7 @@ Mail Resource Store (MRS)
     Recipient MRS (rMRS)    
 '/
 
-'ADMD I.
+'ADMD I. (foo.com)
 participant "aMUA" as aMUA /'MUA'/
 box "RAA" /'Resource Access Agent'/
 participant "aMRS" as aMRS /'Author MRS'/

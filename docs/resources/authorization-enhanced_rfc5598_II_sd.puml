@@ -19,7 +19,7 @@ Mail Resource Store (MRS)
     Recipient MRS (rMRS)    
 '/
 
-'ADMD II.
+'ADMD II. (bar.com)
 participant "MTA" as MTA /'MTA'/
 box "MDA" /'MDA'/
 participant "hMDA" as hMDA /'MHS-focused MDA'/

@@ -18,7 +18,7 @@ Message Store (MS)
     User Agent MS (uMS)
 '/
 
-'ADMD II.
+'ADMD II. (bar.com)
 participant "MTA" as MTA /'MTA'/
 box "MDA"
 participant "hMDA" as hMDA /'MHS-focused MDA'/

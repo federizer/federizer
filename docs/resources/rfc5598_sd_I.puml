@@ -18,7 +18,7 @@ Message Store (MS)
     User Agent MS (uMS)
 '/
 
-'ADMD I.
+'ADMD I. (foo.com)
 participant "aMUA" as aMUA /'MUA, uMS optional'/
 participant "aMS" as aMS /'Author MS'/
 box "MSA"
