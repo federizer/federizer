@@ -2,86 +2,12 @@
 
 ## Current Internet Mail Architecture (RFC5598)
 
-```puml
-@startuml Internet Mail Architecture (rfc5598), message flow part I.
-
-/'
-Message
-Message User Agent (MUA)
-    Author MUA (aMUA)
-    Recipient MUA (rMUA)
-Message Submission Agent (MSA)
-    Author-focused MSA functions (aMSA)
-    MHS-focused MSA functions (hMSA)
-Message Transfer Agent (MTA)
-Message Delivery Agent (MDA)
-    Recipient-focused MDA functions (rMDA)
-    MHS-focused MDA functions (hMDA)
-Message Store (MS)
-    Author MS (aMS)
-    Recipient MS (rMS)
-    User Agent MS (uMS)
-'/
-
-'ADMD I. (foo.com)
-participant "aMUA" as aMUA /'MUA, uMS optional'/
-participant "aMS" as aMS /'Author MS'/
-box "MSA"
-participant "aMSA" as aMSA /'Author-focused MSA'/
-participant "hMSA" as hMSA /'MHS-focused MSA'/
-end box
-participant "MTA" as MTA /'MTA'/
-
-aMUA -> aMS : 1 Store message (local, imap)
-aMUA -> aMSA : 2.1 Message submission (smtp)
-aMSA -> hMSA : 2.2 Posting (S) transition
-hMSA -> MTA : 3.1 Message transfer (smtp)
-MTA ->] : 3.2 Message transfer (smtp)
-
-@enduml
-```
+![Internet mail architecture RFC5598 Sequence Diagram Part I.](src/main/images/sd_I.svg)
 <p class="figure">
     Fig.&nbsp;1.&emsp;Current Internet mail architecture (rfc5598), message flow part I.
 </p>
 
-```puml
-@startuml Internet Mail Architecture (rfc5598), message flow part II.
-
-/'
-Message
-Message User Agent (MUA)
-    Author MUA (aMUA)
-    Recipient MUA (rMUA)
-Message Submission Agent (MSA)
-    Author-focused MSA functions (aMSA)
-    MHS-focused MSA functions (hMSA)
-Message Transfer Agent (MTA)
-Message Delivery Agent (MDA)
-    Recipient-focused MDA functions (rMDA)
-    MHS-focused MDA functions (hMDA)
-Message Store (MS)
-    Author MS (aMS)
-    Recipient MS (rMS)
-    User Agent MS (uMS)
-'/
-
-'ADMD II. (bar.com)
-participant "MTA" as MTA /'MTA'/
-box "MDA"
-participant "hMDA" as hMDA /'MHS-focused MDA'/
-participant "rMDA" as rMDA /'Recipient-focused MDA'/
-end box
-participant "rMS" as rMS /'Recipient MS'/
-participant "rMUA" as rMUA /'MUA, uMS optional'/
-
-[-> MTA : 3.2 Message transfer (smtp)
-MTA -> hMDA : 3.3 Message transfer (local, smtp, lmtp)
-hMDA -> rMDA : 4.1 Delivery (D) transition
-rMDA -> rMS : 4.2 Message delivery (local, smtp)
-rMS -> rMUA : 5 Fetch message (local, pop, imap)
-
-@enduml
-```
+![Internet mail architecture RFC5598 Sequence Diagram Part II.](src/main/images/sd_II.svg)
 <p class="figure">
     Fig.&nbsp;2.&emsp;Current Internet mail architecture (rfc5598), message flow part II.
 </p>
