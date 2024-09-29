@@ -2,24 +2,182 @@
 
 ## Current Internet Mail Architecture (RFC5598)
 
-![RFC5598 Sequence Diagram Part I.](../docs/resources/rfc5598_sd_I.puml)
+```puml
+@startuml Internet Mail Architecture (rfc5598), message flow part I.
+
+/'
+Message
+Message User Agent (MUA)
+    Author MUA (aMUA)
+    Recipient MUA (rMUA)
+Message Submission Agent (MSA)
+    Author-focused MSA functions (aMSA)
+    MHS-focused MSA functions (hMSA)
+Message Transfer Agent (MTA)
+Message Delivery Agent (MDA)
+    Recipient-focused MDA functions (rMDA)
+    MHS-focused MDA functions (hMDA)
+Message Store (MS)
+    Author MS (aMS)
+    Recipient MS (rMS)
+    User Agent MS (uMS)
+'/
+
+'ADMD I. (foo.com)
+participant "aMUA" as aMUA /'MUA, uMS optional'/
+participant "aMS" as aMS /'Author MS'/
+box "MSA"
+participant "aMSA" as aMSA /'Author-focused MSA'/
+participant "hMSA" as hMSA /'MHS-focused MSA'/
+end box
+participant "MTA" as MTA /'MTA'/
+
+aMUA -> aMS : 1 Store message (local, imap)
+aMUA -> aMSA : 2.1 Message submission (smtp)
+aMSA -> hMSA : 2.2 Posting (S) transition
+hMSA -> MTA : 3.1 Message transfer (smtp)
+MTA ->] : 3.2 Message transfer (smtp)
+
+@enduml
+```
 <p class="figure">
     Fig.&nbsp;1.&emsp;Current Internet mail architecture (rfc5598), message flow part I.
 </p>
 
-![RFC5598 Sequence Diagram Part II.](../docs/resources/rfc5598_sd_II.puml)
+```puml
+@startuml Internet Mail Architecture (rfc5598), message flow part II.
+
+/'
+Message
+Message User Agent (MUA)
+    Author MUA (aMUA)
+    Recipient MUA (rMUA)
+Message Submission Agent (MSA)
+    Author-focused MSA functions (aMSA)
+    MHS-focused MSA functions (hMSA)
+Message Transfer Agent (MTA)
+Message Delivery Agent (MDA)
+    Recipient-focused MDA functions (rMDA)
+    MHS-focused MDA functions (hMDA)
+Message Store (MS)
+    Author MS (aMS)
+    Recipient MS (rMS)
+    User Agent MS (uMS)
+'/
+
+'ADMD II. (bar.com)
+participant "MTA" as MTA /'MTA'/
+box "MDA"
+participant "hMDA" as hMDA /'MHS-focused MDA'/
+participant "rMDA" as rMDA /'Recipient-focused MDA'/
+end box
+participant "rMS" as rMS /'Recipient MS'/
+participant "rMUA" as rMUA /'MUA, uMS optional'/
+
+[-> MTA : 3.2 Message transfer (smtp)
+MTA -> hMDA : 3.3 Message transfer (local, smtp, lmtp)
+hMDA -> rMDA : 4.1 Delivery (D) transition
+rMDA -> rMS : 4.2 Message delivery (local, smtp)
+rMS -> rMUA : 5 Fetch message (local, pop, imap)
+
+@enduml
+```
 <p class="figure">
     Fig.&nbsp;2.&emsp;Current Internet mail architecture (rfc5598), message flow part II.
 </p>
 
 ## Authorization-Enhanced Internet Mail Architecture
 
-![Authorization-Enhanced RFC5598 Sequence Diagram Part I.](../docs/resources/authorization-enhanced_rfc5598_I_sd.puml)
+```puml
+@startuml Authorization-Enhanced Internet Mail Architecture, message flow part I.
+
+/'
+Message
+Message User Agent (MUA)
+    Author MUA (aMUA)
+    Recipient MUA (rMUA)
+Message Submission Agent (MSA)
+    Author-focused MSA functions (aMSA)
+    MHS-focused MSA functions (hMSA)
+Message Transfer Agent (MTA)
+Message Delivery Agent (MDA)
+    Recipient-focused MDA functions (rMDA)
+    MHS-focused MDA functions (hMDA)
+Resource Server (RS)
+Resource Retrieval Agent (RRA)
+Mail Resource Store (MRS)
+    Author MRS (aMRS)
+    Recipient MRS (rMRS)    
+'/
+
+'ADMD I. (foo.com)
+participant "aMUA" as aMUA /'MUA'/
+box "aRS" /'Author Resource Server'/
+participant "aMRS" as aMRS /'Author MRS'/
+end box
+box "MSA" /'MSA'/
+participant "aMSA" as aMSA /'Author-focused MSA'/
+participant "hMSA" as hMSA /'MHS-focused MSA'/
+end box
+participant "MTA" as MTA /'MTA'/
+
+aMUA -> aMRS : 1 Store mail resources, return placeholder message (local, imap, http)
+aMUA -> aMSA : 2.1 Placeholder message submission (smtp)
+aMSA -> hMSA : 2.2 Posting (S) transition
+hMSA -> MTA : 3.1 Placeholder message transfer (smtp)
+MTA ->] : 3.2 Placeholder message transfer (smtp)
+aMRS <-] : a) Mail resources retrieval using an http GET request
+aMRS -->] : b) Mail resources retrieval http response
+
+@enduml
+```
 <p class="figure">
     Fig.&nbsp;3.&emsp;Authorization-Enhanced Internet mail architecture, information flow part I.
 </p>
 
-![Authorization-Enhanced RFC5598 Sequence Diagram Part II.](../docs/resources/authorization-enhanced_rfc5598_II_sd.puml)
+```puml
+@startuml Authorization-Enhanced Internet Mail Architecture, message flow part II.
+
+/'
+Message
+Message User Agent (MUA)
+    Author MUA (aMUA)
+    Recipient MUA (rMUA)
+Message Submission Agent (MSA)
+    Author-focused MSA functions (aMSA)
+    MHS-focused MSA functions (hMSA)
+Message Transfer Agent (MTA)
+Message Delivery Agent (MDA)
+    Recipient-focused MDA functions (rMDA)
+    MHS-focused MDA functions (hMDA)
+Resource Server (RS)    
+Resource Retrieval Agent (RRA)
+Mail Resource Store (MRS)
+    Author MRS (aMRS)
+    Recipient MRS (rMRS)    
+'/
+
+'ADMD II. (bar.com)
+participant "MTA" as MTA /'MTA'/
+box "MDA" /'MDA'/
+participant "hMDA" as hMDA /'MHS-focused MDA'/
+participant "rMDA" as rMDA /'Recipient-focused MDA'/
+end box
+box "rRS, RRA" /'Recipient Resource Server, Resource Retrieval Agent'/
+participant "rMRS" as rMRS /'Recipient MRS'/
+end box
+participant "rMUA" as rMUA /'MUA'/
+
+[-> MTA : 3.2 Placeholder message transfer (smtp)
+MTA -> hMDA : 3.3 Placeholder message transfer (local, smtp, lmtp)
+hMDA -> rMDA : 4.1 Delivery (D) transition
+rMDA -> rMRS : 4.2 Placeholder message delivery (local, smtp)
+rMRS ->[ : a) Mail resources retrieval using an http GET request
+rMRS <--[ : b) Mail resources retrieval http response
+rMRS -> rMUA : 5 Fetch placeholder message\n and mail resources (local, pop, imap, http)
+
+@enduml
+```
 <p class="figure">
     Fig.&nbsp;4.&emsp;Authorization-Enhanced Internet mail architecture, information flow part II.
 </p>
