@@ -39,4 +39,3 @@ aMRS <-] : a) Mail resources retrieval using an http GET request
 aMRS -->] : b) Mail resources retrieval http response
 
 @enduml
-

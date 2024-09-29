@@ -16,19 +16,29 @@
 
 ![Authorization-Enhanced RFC5598 Sequence Diagram Part I.](../docs/resources/authorization-enhanced_rfc5598_I_sd.puml)
 <p class="figure">
-    Fig.&nbsp;3.&emsp;Authorization-Enhanced Internet mail architecture, message and resources flow part I.
+    Fig.&nbsp;3.&emsp;Authorization-Enhanced Internet mail architecture, information flow part I.
 </p>
 
 ![Authorization-Enhanced RFC5598 Sequence Diagram Part II.](../docs/resources/authorization-enhanced_rfc5598_II_sd.puml)
 <p class="figure">
-    Fig.&nbsp;4.&emsp;Authorization-Enhanced Internet mail architecture, message and resources flow part II.
+    Fig.&nbsp;4.&emsp;Authorization-Enhanced Internet mail architecture, information flow part II.
 </p>
 
 #### *Key Points*
 
-TBD
+Each email consists of a *placeholder message* and associated external body resources (message bodies) stored on the Mail Resource Store (MRS) of the respective Resource Server (RS). The information flow illustrated in Figure 3 and Figure 4 includes the following key points:
+
+- An author using aMUA stores the mail body resources on the aMRS, where a *placeholder message* is created, stored and finally returned in the response. This *placeholder message* stores, in its headers, the URL of the author RS and the cryptographic hash values of the referenced body resources (see the [Placeholder Message Example](#placeholder-message-example)).
+
+- The mail body resources owned by the author stored on the aMRS are shared with recipients, while the *placeholder message* stored on the aMRS acts as an access control list. Following a successful sharing process, the *placeholder message* is sent to each recipient using the current Internet mail infrastructure. Tip: Send the *placeholder message* in JSON format as an email attachment.
+
+- After receiving a *placeholder message* on the recipient's side the rMDA adds a header containing the recipient's RS URL to the *placeholder message* and stores it on the rMRS.
+
+- The Resource Retrieval Agent (RRA) running on the rRS obtaines the URL of the author's RS and the cryptographic hash values of the referenced body resources from the *placeholder message*. Using the authentication mechanism of the [Internet Mail Federation Protocol](#internet-mail-federation-protocol), the RRA attempts to retrieve the external body resources from the aMRS. After successful authentication, the data is retrieved and stored on the rMRS of the author's RS. Finally, the rMUA fetches the relevant data from the rMRS of the recipient's RS and reconstructs the original message according to the *placeholder message* source.
 
 ## Placeholder Message
+
+#### *Placeholder Message Example*
 
 An example of placeholder message in JSON format with external bodies accessible via content-addressed URIs.
 
@@ -112,4 +122,10 @@ An example of placeholder message in JSON format with external bodies accessible
     ]
 }
 ```
+
+# Internet Mail Federation Protocol
+
+Internet Mail Federation Protocol (Federizer) is an open protocol designed for...
+
+TBD
 

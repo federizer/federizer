@@ -34,4 +34,3 @@ rMDA -> rMS : 4.2 Message delivery (local, smtp)
 rMS -> rMUA : 5 Fetch message (local, pop, imap)
 
 @enduml
-
