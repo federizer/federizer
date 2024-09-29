@@ -16,12 +16,12 @@
 
 ![Authorization-enhanced Internet mail architecture Part I.](src/main/images/sd_III.svg)
 <p class="figure">
-    Fig.&nbsp;3.&emsp;Authorization-Enhanced Internet mail architecture, information flow part I.
+    Fig.&nbsp;3.&emsp;Authorization-enhanced Internet mail architecture, information flow part I.
 </p>
 
 ![Authorization-enhanced Internet mail architecture Part II.](src/main/images/sd_IV.svg)
 <p class="figure">
-    Fig.&nbsp;4.&emsp;Authorization-Enhanced Internet mail architecture, information flow part II.
+    Fig.&nbsp;4.&emsp;Authorization-enhanced Internet mail architecture, information flow part II.
 </p>
 
 #### *Key Points*
