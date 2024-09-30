@@ -5,7 +5,7 @@
 ![Authorization-Enhanced Internet Mail Architecture](docs/src/main/images/authorization-enhanced_rfc5598.svg)
 
 <p class="figure">
-    Fig.&nbsp;1.&emsp;Authorization-enhanced Internet mail architecture
+    Fig.&nbsp;1.&emsp;Authorization-enhanced Internet mail architecture using the Internet mail federation protocol.
 </p>
 
 Additional technical information: [Authorization-Enhanced Internet Mail Architecture](docs/Authorization-Enhanced_Internet_Mail_Architecture.md)
