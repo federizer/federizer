@@ -34,7 +34,7 @@ Each email consists of a *placeholder message* and associated external body reso
 
 - After receiving a *placeholder message* on the recipient's side the rMDA adds a header containing the recipient's RS URL to the *placeholder message* and stores it on the rMRS.
 
-- The Resource Retrieval Agent (RRA) running on the rRS obtaines the URL of the author's RS and the cryptographic hash values of the referenced body resources from the *placeholder message*. Using the authentication mechanism of the [Internet Mail Federation Protocol](#internet-mail-federation-protocol), the RRA attempts to retrieve the external body resources from the aMRS. After successful authentication, the data is retrieved and stored on the rMRS of the author's RS. Finally, the rMUA fetches the relevant data from the rMRS of the recipient's RS and reconstructs the original message according to the *placeholder message* source.
+- The Resource Retrieval Agent (RRA) running on the rRS obtaines the URL of the author's RS and the cryptographic hash values of the referenced body resources from the *placeholder message*. Using the authentication mechanism of the [Internet Mail Federation Protocol](docs/Internet_Mail_Federation_Protocol.md), the RRA attempts to retrieve the external body resources from the aMRS. After successful authentication, the data is retrieved and stored on the rMRS of the author's RS. Finally, the rMUA fetches the relevant data from the rMRS of the recipient's RS and reconstructs the original message according to the *placeholder message* source.
 
 ## Placeholder Message
 
@@ -123,9 +123,4 @@ An example of placeholder message in JSON format with external bodies accessible
 }
 ```
 
-# Internet Mail Federation Protocol
-
-Internet Mail Federation Protocol (Federizer) is an open protocol designed for...
-
-TBD
 
