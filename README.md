@@ -1,6 +1,6 @@
 # Federizer
 
-We introduce an enhancement to the current Internet mail system by incorporating authorization mechanisms for mail resources. The key components include:
+We introduce an enhancement to the current Internet mail architecture by incorporating authorization mechanisms for mail resources. The key components include:
 
 * Mail Resource Store (MRS): A storage system where mail body resources are stored separately from the placeholder message.
 * Placeholder Messages: Lightweight messages that contain references (URLs and cryptographic hashes) to the actual mail resources stored on the MRS.
