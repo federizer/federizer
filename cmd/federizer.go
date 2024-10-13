@@ -17,9 +17,14 @@ func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func Start() error {
-	configFile, err := os.ReadFile("config.yaml")
+	configPath := os.Getenv("CONFIG_PATH")
+	if configPath == "" {
+		configPath = "config.yaml"
+	}
+
+	configFile, err := os.ReadFile(configPath)
 	if err != nil {
-		log.Printf("Error reading config file: %v\n", err)
+		log.Printf("Error reading config file %s: %v\n", configPath, err)
 		return err
 	}
 
