@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	federizer "federizer/cmd"
+	"log"
+)
 
 func main() {
-	fmt.Println("Hello, Federizer!")
+	err := federizer.Start()
+	if err != nil {
+		log.Fatalf("federizer error: %v", err)
+	}
+	log.Print("federizer shutdown gracefully")
 }

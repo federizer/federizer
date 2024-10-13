@@ -1,0 +1,29 @@
+# Tmps
+.~*.*
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+__debug_bin
+cargomail
+
+# Test binary, built with `go test -c`
+*.test
+
+# SQLite3 database
+**.db
+
+# resources storage
+resources/
+
+# Postman collections
+postman/
+
+# test data
+testdata/
+
+# out data
+out/
