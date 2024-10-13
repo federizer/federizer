@@ -5,7 +5,6 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 )
 
@@ -18,20 +17,8 @@ func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func Start() error {
-	configPath := os.Getenv("CONFIG_PATH")
-	if configPath == "" {
-		configPath = "config.yaml"
-	}
-
-	configFile, err := os.ReadFile(configPath)
-	if err != nil {
-		log.Printf("Error reading config file %s: %v\n", configPath, err)
-		return err
-	}
-
-	var cfg config.Config
-	if err := cfg.Load(configFile); err != nil {
-		log.Printf("Error loading config: %v\n", err)
+	cfg := config.Config{}
+	if err := cfg.LoadConfig(); err != nil {
 		return err
 	}
 

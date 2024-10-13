@@ -1,12 +1,17 @@
 package config
 
 import (
+	_ "embed"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 
 	"gopkg.in/yaml.v2"
 )
+
+//go:embed default.yaml
+var defaultConfig []byte
 
 const (
 	MinPort = 1
@@ -25,12 +30,25 @@ type Config struct {
 	3. Environment vars - implemented
 	4. Local config file (if exists) - implemented
 	5. Global config file (if exists)
-	6. Default values
+	6. Default values - implemented
 */
 
-func (c *Config) Load(data []byte) error {
-	if err := yaml.Unmarshal(data, c); err != nil {
-		return fmt.Errorf("failed to unmarshal config: %w; ensure all fields ('host', 'port') are correctly defined", err)
+func (c *Config) LoadConfig() error {
+	err := yaml.Unmarshal(defaultConfig, c)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	configPath := os.Getenv("CONFIG_PATH")
+	if configPath != "" {
+		configFile, err := os.ReadFile(configPath)
+		if err != nil {
+			log.Fatalf("Error reading config file %s: %v\n", configPath, err)
+		}
+
+		if err := yaml.Unmarshal(configFile, c); err != nil {
+			return fmt.Errorf("failed to unmarshal config: %w; ensure all fields ('host', 'port') are correctly defined", err)
+		}
 	}
 
 	if host := os.Getenv("SERVER_HOST"); host != "" {
