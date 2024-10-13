@@ -51,11 +51,17 @@ func (c *Config) LoadConfig() error {
 		}
 	}
 
+	if err := c.validate(); err != nil {
+		return err
+	}
+
 	if host := os.Getenv("SERVER_HOST"); host != "" {
+		log.Printf("Using environment variable for SERVER_HOST: %s\n", host)
 		c.ServerHost = host
 	}
 
 	if port := os.Getenv("SERVER_PORT"); port != "" {
+		log.Printf("Using environment variable for SERVER_PORT: %s\n", port)
 		p, err := strconv.Atoi(port)
 		if err != nil {
 			return fmt.Errorf("invalid port value: %s; must be an integer", port)
@@ -63,6 +69,10 @@ func (c *Config) LoadConfig() error {
 		c.ServerPort = p
 	}
 
+	return c.validate()
+}
+
+func (c *Config) validate() error {
 	if c.ServerPort < MinPort || c.ServerPort > MaxPort {
 		return fmt.Errorf("invalid port value: %d; port must be between %d and %d", c.ServerPort, MinPort, MaxPort)
 	}
