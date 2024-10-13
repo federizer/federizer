@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
@@ -36,6 +37,6 @@ func Start() error {
 
 	http.HandleFunc("/", helloWorldHandler)
 
-	log.Printf("Starting server on %s:%s\n", cfg.ServerHost, cfg.ServerPort)
-	return http.ListenAndServe(cfg.ServerHost+":"+cfg.ServerPort, nil)
+	log.Printf("Starting server on %s:%d\n", cfg.ServerHost, cfg.ServerPort)
+	return http.ListenAndServe(cfg.ServerHost+":"+strconv.Itoa(cfg.ServerPort), nil)
 }
