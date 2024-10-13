@@ -8,7 +8,7 @@ import (
 func main() {
 	err := federizer.Start()
 	if err != nil {
-		log.Fatalf("federizer error: %v", err)
+		log.Fatalf("Server encountered an error: %v\n", err)
 	}
-	log.Print("federizer shutdown gracefully")
+	log.Printf("Server shutdown gracefully")
 }

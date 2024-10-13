@@ -2,8 +2,8 @@ package federizer
 
 import (
 	"federizer/internal/shared/config"
-	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 )
@@ -19,25 +19,17 @@ func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
 func Start() error {
 	configFile, err := os.ReadFile("config.yaml")
 	if err != nil {
-		fmt.Printf("Error reading config file: %v\n", err)
+		log.Printf("Error reading config file: %v\n", err)
 		return err
 	}
 
 	var cfg config.Config
 	if err := cfg.Load(configFile); err != nil {
-		fmt.Printf("Error parsing config file: %v\n", err)
+		log.Printf("Error loading config: %v\n", err)
 		return err
 	}
 
-	http.HandleFunc("/hello", helloWorldHandler)
-
-	port := fmt.Sprintf(":%s", cfg.Port)
-
-	fmt.Printf("Starting server at port %s\n", port)
-
-	if err := http.ListenAndServe(port, nil); err != nil {
-		fmt.Printf("Error starting server: %v\n", err)
-	}
-
-	return err
+	http.HandleFunc("/", helloWorldHandler)
+	log.Printf("Starting server on port %s\n", cfg.Port)
+	return http.ListenAndServe(":"+cfg.Port, nil)
 }
