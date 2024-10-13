@@ -11,6 +11,7 @@
             "mode": "auto",
             "program": "${workspaceFolder}",
             "env": {
+                "CONFIG_PATH": "config/default.yaml",
                 "SERVER_HOST": "127.0.0.1",
                 "SERVER_PORT": "8080",
             },

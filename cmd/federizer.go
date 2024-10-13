@@ -1,7 +1,7 @@
 package federizer
 
 import (
-	"federizer/internal/shared/config"
+	"federizer/config"
 	"io"
 	"log"
 	"net/http"

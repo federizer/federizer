@@ -3,8 +3,9 @@ package config
 import (
 	"fmt"
 	"os"
-	"gopkg.in/yaml.v2"
 	"strconv"
+
+	"gopkg.in/yaml.v2"
 )
 
 const (
@@ -24,6 +25,7 @@ type Config struct {
 	3. Environment vars - implemented
 	4. Local config file (if exists) - implemented
 	5. Global config file (if exists)
+	6. Default values
 */
 
 func (c *Config) Load(data []byte) error {
