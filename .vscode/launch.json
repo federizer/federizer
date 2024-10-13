@@ -9,7 +9,11 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}"
+            "program": "${workspaceFolder}",
+            "env": {
+                "SERVER_HOST": "127.0.0.1",
+                "SERVER_PORT": "8080",
+            },
         }
     ]
 }

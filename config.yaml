@@ -1,3 +1,4 @@
 # Configuration file for the Federizer server
 
-port: "8080"
+serverHost: "127.0.0.2"       # ${SERVER_HOST}
+serverPort: 8088              # ${SERVER_PORT}

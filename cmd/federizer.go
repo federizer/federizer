@@ -30,6 +30,7 @@ func Start() error {
 	}
 
 	http.HandleFunc("/", helloWorldHandler)
-	log.Printf("Starting server on port %s\n", cfg.Port)
-	return http.ListenAndServe(":"+cfg.Port, nil)
+
+	log.Printf("Starting server on %s:%s\n", cfg.ServerHost, cfg.ServerPort)
+	return http.ListenAndServe(cfg.ServerHost+":"+cfg.ServerPort, nil)
 }
