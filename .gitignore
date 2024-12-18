@@ -27,3 +27,7 @@ testdata/
 
 # out data
 out/
+
+# ai
+INSTRUCTIONS.md
+PROMPTS.md
