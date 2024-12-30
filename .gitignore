@@ -28,6 +28,7 @@ testdata/
 # out data
 out/
 
-# ai
-INSTRUCTIONS.md
-PROMPTS.md
+# docs
+rfcs
+DESCRIPTION*.md
+OUTPUT*.md
