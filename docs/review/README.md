@@ -1,0 +1,1 @@
+The Federizer Project has been reviewed by Gemini 2.0’s Flash Thinking. This folder contains a conversation from the review process.
