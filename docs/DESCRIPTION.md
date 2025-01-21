@@ -140,9 +140,10 @@ Note 2: We utilize the dual role feature of MBX1/MTA1 and MBX2/MTA2 entities to 
 
 * The External Resources owned by the author stored on the RS of the origin mailbox service are temporarily shared with recipients by creating a Placeholder Message which also acts as an Access Control List. Following a successful sharing process, using the Cross-Domain Authorization Grant, the Placeholder Message is sent to each recipient through the MTA operating within the origin trust domain. This Placeholder Message stores SHA-256 digests of the referenced External Resources in its `Content-ID` headers (see Figure 1 for an example of a Placeholder Message).
 
-* The MTA operating within the destination trust domain using the Cross-Domain Authorization Grant attempts to fetch the External Resources from the RS of the origin mailbox service. After successful authorization, the data is fetched and stored on the RS of the destination mailbox service, which implicates that each recipient becomes the owner of the corresponding copy of the referenced External Resource. Finally, the Webmail application downloads the relevant data from the RS of the destination mailbox service and reconstructs the original message according to the Placeholder Message source.
+* The MTA operating within the destination trust domain using the Cross-Domain Authorization Grant attempts to fetch the External Resources from the RS of the origin mailbox service. After successful authorization, the External Resource is fetched using a digest from the Content-ID header of the Placeholder Message as an identifier and is stored on the RS of the destination mailbox service. That means that each recipient becomes the owner of the corresponding copy of the referenced External Resource (a Signed Placeholder Message can prove it, as explained later), which they can download and use, or send to other recipients. Finally, the Webmail application downloads the relevant data from the RS of the destination mailbox service and reconstructs the original message according to the Placeholder Message source.
 
 ```yaml
+# Email envelope
 headers:
   - From: Alice <alice@example.com>
   - Subject: Vacation photo
@@ -150,6 +151,7 @@ headers:
   - Message-ID: <b07d0cdf-c6f4-4f67-b24c-cc847a4c2df4@example.com>
   - X-Thread-ID: <68fb9177-6853-466a-8f7d-c96fbb885f81@example.com>
   - Content-Type: multipart/mixed
+# Email body
 parts:
   - headers:
       - Content-Type: multipart/alternative
@@ -185,6 +187,7 @@ In the example above, all headers are static, meaning they are part of the origi
 
 ```yaml
 headers:
+# Email envelope
   # Dynamic headers go here...
   - Received: from example.net by example.org; Sun Dec 22 21:40:08 CEST 2024
   - Digest: <1pzyqfFWbfhJ3hrydjL9jO9Qgeg70TgZQ_zpOkt4HOU>
@@ -200,7 +203,7 @@ headers:
   - Message-ID: <b07d0cdf-c6f4-4f67-b24c-cc847a4c2df4@example.com>
   - X-Thread-ID: <68fb9177-6853-466a-8f7d-c96fbb885f81@example.com>
   - Content-Type: multipart/mixed
-# Email body content here...
+# Email body content go here...
 ```
 Fig. 2. An example of a forwarded Placeholder Message in YAML format with dynamic headers.
 
@@ -208,7 +211,7 @@ The "Date" header means that the message has been sent and is immutable—withou
 
 ## Digital Assets
 
-The user can digitally sign the Placeholder Message as a whole (all static headers and the email body) or in parts by headers (`Content-Disposition`, `Content-ID`, `Content-Type`) of the individual External Resources using the `application/pgp-signature` protocol. The signature transforms the External Resource into a digital asset that has verifiable authenticity, integrity, and data origin, provided the resource includes provenance metadata.
+The user can digitally sign the Placeholder Message, referred to as a PGP Signed Placeholder Message, either as a whole (including all static headers and the email body) or in parts by headers (`Content-Disposition`, `Content-ID`, `Content-Type`) of the individual External Resources using the `application/pgp-signature` protocol. The signature transforms the External Resource into a digital asset that has verifiable authenticity, integrity, and data origin, provided the resource includes provenance metadata.
 
 ## Resource(s) Delivery Scenario
 
@@ -306,20 +309,20 @@ We need to replace the DomainKeys Identified Mail (DKIM) email authentication me
 ```plantuml
 @startuml
 title OAuth 2.0 Token Exchange for transferring Placeholder Messages using JWT Assertion and DPoP.
-participant "Alice" as User
-participant "MBX1/MTA1" as EntityA
+participant "Client1" as Client1
+participant "MBX1/MTA1" as Entity1
 participant "AS1 Authorization Server" as AuthServer
-participant "MBX2/MTA2" as EntityB
+participant "MBX2/MTA2" as Entity2
 
-User -> EntityA: Send Placeholder Message (includes Access Token)
-activate EntityA
+Client1 -> Entity1: Send Placeholder Message (includes Access Token)
+activate Entity1
 
-EntityA -> EntityA: Generate DPoP Proof (using new key pair)
-EntityA -> EntityA: Add the new (Date) header at the top of Signed Placeholder Message
-EntityA -> EntityA: Create Placeholder Message Digest msg_digest=<SHA256 hash\n of Placeholder Message>
-EntityA -> EntityA: Add the new (Digest: <msg_digest>) header at the top of Placeholder Message
+Entity1 -> Entity1: Generate DPoP Proof (using new key pair)
+Entity1 -> Entity1: Add the new (Date) header at the top of Placeholder Message
+Entity1 -> Entity1: Create Placeholder Message Digest msg_digest=<SHA256 hash\n of Placeholder Message>
+Entity1 -> Entity1: Add the new (Digest: <msg_digest>) header at the top of Placeholder\n Message
 
-EntityA -> AuthServer: Token Exchange Request\n(grant_type=urn:ietf:params:oauth:grant-type:token-exchange,\nrequested_token_type=urn:ietf:params:oauth:token-type:jwt,\nsubject_token=<Access Token>,\nsubject_token_type=urn:ietf:params:oauth:token-type:access_token,\nmsg=<Placeholder Message>,\ndpop=<DPoP Proof>\nclient_id=<MTA1 client ID>)
+Entity1 -> AuthServer: Token Exchange Request\n(grant_type=urn:ietf:params:oauth:grant-type:token-exchange,\nrequested_token_type=urn:ietf:params:oauth:token-type:jwt,\nsubject_token=<Access Token>,\nsubject_token_type=urn:ietf:params:oauth:token-type:access_token,\nmsg=<Placeholder Message>,\ndpop=<DPoP Proof>\nclient_id=<MTA1 client ID>)
 activate AuthServer
 
 AuthServer -> AuthServer: Validate Access Token
@@ -328,34 +331,34 @@ AuthServer -> AuthServer: Validate Placeholder Message format and content of the
 AuthServer -> AuthServer: Verify top header (Digest: <msg_digest>) of Placeholder Message
 AuthServer -> AuthServer: Create JWT Assertion (azp=client_id,\n cnf={jkt=SHA256(JWK Thumbprint)},\n message_digest={alg="SHA256", value=<msg_digest>})
 
-AuthServer --> EntityA: Token Exchange Response\n(access_token=<JWT Assertion>,\ntoken_type=urn:ietf:params:oauth:token-type:jwt,\nissued_token_type=urn:ietf:params:oauth:token-type:jwt)
+AuthServer --> Entity1: Token Exchange Response\n(access_token=<JWT Assertion>,\ntoken_type=urn:ietf:params:oauth:token-type:jwt,\nissued_token_type=urn:ietf:params:oauth:token-type:jwt)
 deactivate AuthServer
 
-EntityA -> EntityA: Generate new DPoP Proof (using the same key pair, for MBX2/MTA2 service)
+Entity1 -> Entity1: Generate new DPoP Proof (using the same key pair, for MBX2/MTA2 service)
 
-EntityA -> EntityA: Use DNS to discover MBX2/MTA2 service using the domain part of recipient's\n email address
-EntityA -> EntityA: Create Placeholder Message request to MBX2/MTA2 service
-EntityA -> EntityA: Queue Placeholder Message request
-activate EntityA #LightGray
+Entity1 -> Entity1: Use DNS to discover MBX2/MTA2 service using the domain part of recipient's\n email address
+Entity1 -> Entity1: Create Placeholder Message request to MBX2/MTA2 service
+Entity1 -> Entity1: Queue Placeholder Message request
+activate Entity1 #LightGray
 
-EntityA --> User: Placeholder Message request queued
+Entity1 --> Client1: Placeholder Message request queued
 
-EntityA -> EntityB: Post Placeholder Message (Placeholder Message, Authorization: Bearer <JWT Assertion>, DPoP: <DPoP Proof>)
-activate EntityB
+Entity1 -> Entity2: Post Placeholder Message (Placeholder Message, Authorization: Bearer <JWT Assertion>, DPoP: <DPoP Proof>)
+activate Entity2
 
-EntityB -> EntityB: Validate DPoP Proof (using "jkt" from JWT Assertion "cnf")
-EntityB -> EntityB: Validate JWT Assertion (verify message_digest),\n use DNS discovery to verify that AS1 is the corresponding\n JWT Assertion issuer
-EntityB -> EntityB: Use DNS discovery to verify that MTA1 is the correct client\n making the request
-EntityB -> EntityB: Create Signed Placeholder Message=<Placeholder Message>||\n<JWT Assertion>
-EntityB -> EntityB: Store Signed Placeholder Message in the store using\n message_digest from the JWT Assertion as an identifier,\n and use it as an Access Control List to allow/deny access\n to the External Resource stored on the MBX1/MTA1 service\n during the fetching process
-EntityB --> EntityA: Placeholder Message Delivery Confirmation
-deactivate EntityB
-EntityA -> EntityA: Dequeue Placeholder Message request
-EntityA --> EntityA: Placeholder Message request dequeued
-deactivate EntityA
+Entity2 -> Entity2: Validate DPoP Proof (using "jkt" from JWT Assertion "cnf")
+Entity2 -> Entity2: Validate JWT Assertion (verify message_digest),\n use DNS discovery to verify that AS1 is the corresponding\n JWT Assertion issuer
+Entity2 -> Entity2: Use DNS discovery to verify that MTA1 is the correct client\n making the request
+Entity2 -> Entity2: Create JWT Signed Placeholder Message=\n<Placeholder Message>||<JWT Assertion>
+Entity2 -> Entity2: Store JWT Signed Placeholder Message in the store using\n message_digest from the JWT Assertion as an identifier,\n and use it as an Access Control List to allow/deny access\n to the External Resource stored on the MBX1/MTA1 service\n during the fetching process
+Entity2 --> Entity1: Placeholder Message Delivery Confirmation
+deactivate Entity2
+Entity1 -> Entity1: Dequeue Placeholder Message request
+Entity1 --> Entity1: Placeholder Message request dequeued
+deactivate Entity1
 
-'EntityA --> User: Placeholder Message Sent Confirmation
-deactivate EntityA
+'Entity1 --> User: Placeholder Message Sent Confirmation
+deactivate Entity1
 
 @enduml
 ```
@@ -370,66 +373,67 @@ The sequence diagram of this flow is self-explanatory.
 * We will use a JWT Assertion with the "message_digest" claim (a SHA-256 digest of the Placeholder Message that serves as a digital signature). This assertion embodies the DKIM signature.
 * We will use the DPoP mechanism to bind the JWT Assertion to the client.
 * The MBX2/MTA2 agent should be registered at the AS2 authorization server as a confidential client.
+* The token exchange and fetching process can begin after the successful Placeholder Message delivery.
 
 ##### Sequence Diagram
 
 ```plantuml
 @startuml
 title OAuth 2.0 Token Exchange for fetching External Resources using JWT Assertion and DPoP.
-participant "MBX1/MTA1" as EntityA
+participant "MBX1/MTA1" as Entity1
 participant "AS2 Authorization Server" as AuthServer
-participant "MBX2/MTA2" as EntityB
+participant "MBX2/MTA2" as Entity2
 
-EntityA -> EntityB: Post Placeholder Message (Placeholder Message, Authorization: Bearer <JWT Assertion>, DPoP: <DPoP Proof>)
-activate EntityB
+Entity1 -> Entity2: Post Placeholder Message (Placeholder Message, Authorization: Bearer <JWT Assertion>, DPoP: <DPoP Proof>)
+activate Entity2
 
-EntityB -> EntityB: Validate DPoP Proof (using "jkt" from JWT Assertion "cnf")
-EntityB -> EntityB: Validate JWT Assertion (verify message_digest),\n use DNS discovery to verify that AS1 is the corresponding\n JWT Assertion issuer
-EntityB -> EntityB: Use DNS discovery to verify that MTA1 is the correct client\n making the request
-EntityB -> EntityB: Create Signed Placeholder Message=<Placeholder Message>||\n<JWT Assertion>
-EntityB -> EntityB: Store Signed Placeholder Message in the store using\n message_digest from the JWT Assertion as an identifier,\n and use it as an Access Control List to allow/deny access\n to the External Resource stored on the MBX1/MTA1 service\n during the fetching process
-EntityB --> EntityA: Placeholder Message Delivery Confirmation
+Entity2 -> Entity2: Validate DPoP Proof (using "jkt" from JWT Assertion "cnf")
+Entity2 -> Entity2: Validate JWT Assertion (verify message_digest),\n use DNS discovery to verify that AS1 is the corresponding\n JWT Assertion issuer
+Entity2 -> Entity2: Use DNS discovery to verify that MTA1 is the correct client\n making the request
+Entity2 -> Entity2: Create JWT Signed Placeholder Message=\n<Placeholder Message>||<JWT Assertion>
+Entity2 -> Entity2: Store JWT Signed Placeholder Message in the store using\n message_digest from the JWT Assertion as an identifier,\n and use it as an Access Control List to allow/deny access\n to the External Resource stored on the MBX1/MTA1 service\n during the fetching process
+Entity2 --> Entity1: Placeholder Message Delivery Confirmation
 
-EntityB -> EntityB: Generate DPoP Proof (using new key pair)
+Entity2 -> Entity2: Generate DPoP Proof (using new key pair)
 
-EntityB -> AuthServer: Token Exchange Request\n(grant_type=urn:ietf:params:oauth:grant-type:token-exchange,\nrequested_token_type=urn:ietf:params:oauth:token-type:jwt,\nsubject_token=<JWT Assertion>,\nsubject_token_type=urn:ietf:params:oauth:token-type:jwt,\nmsg=<Signed Placeholder Message>,\ndpop=<DPoP Proof>,client_id=<MTA2 client ID>)
+Entity2 -> AuthServer: Token Exchange Request\n(grant_type=urn:ietf:params:oauth:grant-type:token-exchange,\nrequested_token_type=urn:ietf:params:oauth:token-type:jwt,\nsubject_token=<JWT Assertion>,\nsubject_token_type=urn:ietf:params:oauth:token-type:jwt,\nmsg=<JWT Signed Placeholder Message>,\ndpop=<DPoP Proof>,client_id=<MTA2 client ID>)
 activate AuthServer
 
 AuthServer -> AuthServer: Validate JWT Assertion
 AuthServer -> AuthServer: Validate DPoP Proof
-AuthServer -> AuthServer: Verify top header (Digest: <msg_digest>) of Signed Placeholder Message
+AuthServer -> AuthServer: Verify top header (Digest: <msg_digest>) of JWT Signed Placeholder Message
 AuthServer -> AuthServer: Create JWT Assertion (azp=client_id,\n cnf={jkt=SHA256(JWK Thumbprint)},\n message_digest={alg="SHA256", value=<msg_digest>})
 
-AuthServer --> EntityB: Token Exchange Response\n(access_token=<JWT Assertion>,\ntoken_type=urn:ietf:params:oauth:token-type:jwt,\nissued_token_type=urn:ietf:params:oauth:token-type:jwt)
+AuthServer --> Entity2: Token Exchange Response\n(access_token=<JWT Assertion>,\ntoken_type=urn:ietf:params:oauth:token-type:jwt,\nissued_token_type=urn:ietf:params:oauth:token-type:jwt)
 deactivate AuthServer
 
-EntityB -> EntityB: Generate new DPoP Proof (using the same key pair,\n for MBX1/MTA1 service)
+Entity2 -> Entity2: Generate new DPoP Proof (using the same key pair,\n for MBX1/MTA1 service)
 
-EntityB -> EntityB: Use DNS to discover MBX1/MTA1 service using the domain part of\n sender's email address
-EntityB -> EntityB: Create the Fetching of External Resource request to MBX1/MTA1 service
-EntityB -> EntityB: Queue Fetching of External Resource request
-activate EntityB #LightGray
+Entity2 -> Entity2: Use DNS to discover MBX1/MTA1 service using the domain part of\n sender's email address
+Entity2 -> Entity2: Create the Fetching of External Resource request to MBX1/MTA1 service
+Entity2 -> Entity2: Queue Fetching of External Resource request
+activate Entity2 #LightGray
 
-EntityB -> EntityA: Get External Resource (msg=<Signed Placeholder Message>,Content-ID, Authorization: Bearer <JWT Assertion>, DPoP: <DPoP Proof>)
-activate EntityA
+Entity2 -> Entity1: Get External Resource (msg=<JWT Signed Placeholder Message>,Content-ID, Authorization: Bearer <JWT Assertion>, DPoP: <DPoP Proof>)
+activate Entity1
 
-EntityA -> EntityA: Validate DPoP Proof (using "jkt" from JWT Assertion "cnf")
-EntityA -> EntityA: Validate JWT Assertion, use DNS discovery to verify that AS2 is the corresponding JWT Assertion issuer
-EntityA -> EntityA: Use DNS discovery to verify that MTA2 is the correct client\n making the request
-EntityA -> EntityA: Verify msg and use it as an Access Control List to allow/deny access to the External Resource
-EntityA -> EntityA: Find External Resource in Store using Content-ID (file name of the External Resource equals\n the Content-ID header value)
-EntityA --> EntityB: Return External Resource
-deactivate EntityA
-EntityB -> EntityB: Dequeue Fetching of External Resource request
-EntityB --> EntityB: Fetching of External Resource request dequeued
+Entity1 -> Entity1: Validate DPoP Proof (using "jkt" from JWT Assertion "cnf")
+Entity1 -> Entity1: Validate JWT Assertion, use DNS discovery to verify that AS2 is the corresponding JWT Assertion issuer
+Entity1 -> Entity1: Use DNS discovery to verify that MTA2 is the correct client\n making the request
+Entity1 -> Entity1: Verify msg and use it as an Access Control List to allow/deny access to the External Resource
+Entity1 -> Entity1: Find External Resource in Store using Content-ID (file name of the External Resource equals\n the Content-ID header value)
+Entity1 --> Entity2: Return External Resource
+deactivate Entity1
+Entity2 -> Entity2: Dequeue Fetching of External Resource request
+Entity2 --> Entity2: Fetching of External Resource request dequeued
 
-deactivate EntityB
-deactivate EntityB
+deactivate Entity2
+deactivate Entity2
 
 @enduml
 ```
 
-The sequence diagram of this flow is self-explanatory. Take note of the use of a Signed Placeholder Message as an Access Control List in the fetch request.
+The sequence diagram of this flow is self-explanatory. Take note of the use of a JWT Signed Placeholder Message as an Access Control List in the fetch request.
 
 <div style="break-after:page"></div>
 
@@ -437,9 +441,10 @@ The sequence diagram of this flow is self-explanatory. Take note of the use of a
 
 * We will use the OAuth 2.0 Token Exchange grant type (RFC 8693).
 * We will use a JWT Assertion with the "message_digest" claim (a SHA-256 digest of the Placeholder Message that serves as a digital signature). This assertion embodies the DKIM signature.
-* The forwarding policy should be set on the authorization server.
+* A forwarding policy can be set on the authorization server e.g., each user may/may not set their own forwarding rules on the authorization server.
 * The forwarding MBX2/MTA2 entity should not fetch the External Resources—only the final destination MBX3/MTA3 agent should.
 * We will use the DPoP mechanism to bind the JWT Assertion to the client.
+* The token exchange and relaying/forwarding process can begin after the successful Placeholder Message delivery.
 
 Suppose we have another trust domain, example.org, and user Bob has the two email addresses: bob@example.net and bobby@example.org.
 
@@ -450,65 +455,65 @@ A sequence diagram illustrating relaying/forwarding process where the MBX2/MTA2 
 ```plantuml
 @startuml
 title OAuth 2.0 Token Exchange for relaying/forwarding Placeholder Message using JWT Assertion and DPoP.
-participant "MBX1/MTA1" as EntityA
-participant "MBX2/MTA2" as EntityB
+participant "MBX1/MTA1" as Entity1
+participant "MBX2/MTA2" as Entity2
 participant "AS2 Authorization Server" as AuthServer
-participant "MBX3/MTA3" as EntityC
+participant "MBX3/MTA3" as Entity3
 
-EntityA -> EntityB: Post Placeholder Message (Placeholder Message,\n Authorization: Bearer <JWT Assertion>,\n DPoP: <DPoP Proof>)
-activate EntityB
+Entity1 -> Entity2: Post Placeholder Message (Placeholder Message,\n Authorization: Bearer <JWT Assertion>,\n DPoP: <DPoP Proof>)
+activate Entity2
 
-EntityB -> EntityB: Validate DPoP Proof (using "jkt" from JWT Assertion "cnf")
-EntityB -> EntityB: Validate JWT Assertion (verify message_digest), use DNS discovery to verify\n that AS1 is the corresponding JWT Assertion issuer
-EntityB -> EntityB: Use DNS discovery to verify that MTA1 is the correct client\n making the request
-EntityB -> EntityB: Create Signed Placeholder Message=<Placeholder Message>||\n<JWT Assertion>
-EntityB -> EntityB: Store Signed Placeholder Message in the store using\n message_digest from the JWT Assertion as an identifier,\n and use it as an Access Control List to allow/deny access\n to the External Resource stored on the MBX1/MTA1 service\n during the fetching process
-EntityB --> EntityA: Placeholder Message Delivery Confirmation
+Entity2 -> Entity2: Validate DPoP Proof (using "jkt" from JWT Assertion "cnf")
+Entity2 -> Entity2: Validate JWT Assertion (verify message_digest), use DNS discovery to verify\n that AS1 is the corresponding JWT Assertion issuer
+Entity2 -> Entity2: Use DNS discovery to verify that MTA1 is the correct client\n making the request
+Entity2 -> Entity2: Create JWT Signed Placeholder Message=\n<Placeholder Message>||<JWT Assertion>
+Entity2 -> Entity2: Store JWT Signed Placeholder Message in the store using\n message_digest from the JWT Assertion as an identifier,\n and use it as an Access Control List to allow/deny access\n to the External Resource stored on the MBX1/MTA1 service\n during the fetching process
+Entity2 --> Entity1: Placeholder Message Delivery Confirmation
 
-EntityB -> EntityB: Generate DPoP Proof (using new key pair)
-EntityB -> EntityB: Add the new (Forwarded-From: <bob@example.net>) header at the top of\n Signed Placeholder Message
-EntityB -> EntityB: Add the new (Forwarded-To: <bobby@example.org>) header at the top of\n Signed Placeholder Message
-EntityB -> EntityB: Add the new (Date) header at the top of Signed Placeholder Message
-EntityB -> EntityB: Create Signed Placeholder Message Digest msg_digest=<SHA256 hash\n of Signed Placeholder Message>
-EntityB -> EntityB: Add the new (Digest: <msg_digest>) header at the top of\n Signed Placeholder Message
+Entity2 -> Entity2: Generate DPoP Proof (using new key pair)
+Entity2 -> Entity2: Add the new (Forwarded-From: <bob@example.net>) header at the top of\n JWT Signed Placeholder Message
+Entity2 -> Entity2: Add the new (Forwarded-To: <bobby@example.org>) header at the top of\n JWT Signed Placeholder Message
+Entity2 -> Entity2: Add the new (Date) header at the top of JWT Signed Placeholder Message
+Entity2 -> Entity2: Create JWT Signed Placeholder Message Digest msg_digest=<SHA256 hash\n of JWT Signed Placeholder Message>
+Entity2 -> Entity2: Add the new (Digest: <msg_digest>) header at the top of\n JWT Signed Placeholder Message
 
-EntityB -> AuthServer: Token Exchange Request\n(grant_type=urn:ietf:params:oauth:grant-type:token-exchange,\nrequested_token_type=urn:ietf:params:oauth:token-type:jwt,\nsubject_token=<JWT Assertion>,\nsubject_token_type=urn:ietf:params:oauth:token-type:jwt,\nmsg=<Signed Placeholder Message>,\ndpop=<DPoP Proof>,client_id=<MTA2 client ID>)
+Entity2 -> AuthServer: Token Exchange Request\n(grant_type=urn:ietf:params:oauth:grant-type:token-exchange,\nrequested_token_type=urn:ietf:params:oauth:token-type:jwt,\nsubject_token=<JWT Assertion>,\nsubject_token_type=urn:ietf:params:oauth:token-type:jwt,\nmsg=<JWT Signed Placeholder Message>,\ndpop=<DPoP Proof>,client_id=<MTA2 client ID>)
 activate AuthServer
 
 AuthServer -> AuthServer: Validate JWT Assertion
 AuthServer -> AuthServer: Validate DPoP Proof
-AuthServer -> AuthServer: Validate Signed Placeholder Message format and content\n of the Forwarded-From, Forwarded-To headers
-AuthServer -> AuthServer: Verify top header (Digest: <msg_digest>) of\n Signed Placeholder Message
+AuthServer -> AuthServer: Validate JWT Signed Placeholder Message format and evaluate\n Forwarded-From, Forwarded-To headers against\n the policy/rules set on the AS2
+AuthServer -> AuthServer: Verify top header (Digest: <msg_digest>) of\n JWT Signed Placeholder Message
 AuthServer -> AuthServer: Create JWT Assertion (azp=client_id,\n cnf={jkt=SHA256(JWK Thumbprint)},\n message_digest={alg="SHA256", value=<msg_digest>})
 
-AuthServer --> EntityB: Token Exchange Response\n(access_token=<JWT Assertion>,\ntoken_type=urn:ietf:params:oauth:token-type:jwt,\nissued_token_type=urn:ietf:params:oauth:token-type:jwt)
+AuthServer --> Entity2: Token Exchange Response\n(access_token=<JWT Assertion>,\ntoken_type=urn:ietf:params:oauth:token-type:jwt,\nissued_token_type=urn:ietf:params:oauth:token-type:jwt)
 deactivate AuthServer
 
-EntityB -> EntityB: Generate new DPoP Proof (using the same key pair, for MBX3/MTA3 service)
+Entity2 -> Entity2: Generate new DPoP Proof (using the same key pair, for MBX3/MTA3 service)
 
-EntityB -> EntityB: Use DNS to discover MBX3/MTA3 service using the domain part of\n recipient's email address
-EntityB -> EntityB: Create Placeholder Message request to MBX3/MTA3 service
-EntityB -> EntityB: Queue Placeholder Message request
-activate EntityB #LightGray
+Entity2 -> Entity2: Use DNS to discover MBX3/MTA3 service using the domain part of\n recipient's email address
+Entity2 -> Entity2: Create Placeholder Message request to MBX3/MTA3 service
+Entity2 -> Entity2: Queue Placeholder Message request
+activate Entity2 #LightGray
 
-EntityB --> EntityA: Placeholder Message request queued
+Entity2 --> Entity1: Placeholder Message request queued
 
-EntityB -> EntityC: Post Placeholder Message (Signed Placeholder Message, Authorization: Bearer <JWT Assertion>, DPoP: <DPoP Proof>)
-activate EntityC
+Entity2 -> Entity3: Post Placeholder Message (JWT Signed Placeholder Message, Authorization: Bearer <JWT Assertion>, DPoP: <DPoP Proof>)
+activate Entity3
 
-EntityC -> EntityC: Validate DPoP Proof (using "jkt" from JWT Assertion "cnf")
-EntityC -> EntityC: Validate JWT Assertion (verify message_digest),\n use DNS discovery to verify that AS2 is the corresponding\n JWT Assertion issuer
-EntityC -> EntityC: Use DNS discovery to verify that MTA2 is the correct client\n making the request
-EntityC -> EntityC: Create Signed Placeholder Message=<Signed Placeholder Message>||\n<JWT Assertion>
-EntityC -> EntityC: Store Signed Placeholder Message in the store using\n message_digest from the JWT Assertion as an identifier,\n and use it as an Access Control List to allow/deny access\n to the External Resource stored on the MBX1/MTA1 service\n during the fetching process
-EntityC --> EntityB: Placeholder Message Delivery Confirmation
-deactivate EntityC
-EntityB -> EntityB: Dequeue Placeholder Message request
-EntityB --> EntityB: Placeholder Message request dequeued
-deactivate EntityB
+Entity3 -> Entity3: Validate DPoP Proof (using "jkt" from JWT Assertion "cnf")
+Entity3 -> Entity3: Validate JWT Assertion (verify message_digest),\n use DNS discovery to verify that AS2 is the corresponding\n JWT Assertion issuer
+Entity3 -> Entity3: Use DNS discovery to verify that MTA2 is the correct client\n making the request
+Entity3 -> Entity3: Create JWT Signed Placeholder Message=\n<JWT Signed Placeholder Message>||<JWT Assertion>
+Entity3 -> Entity3: Store JWT Signed Placeholder Message in the store using\n message_digest from the JWT Assertion as an identifier,\n and use it as an Access Control List to allow/deny access\n to the External Resource stored on the MBX1/MTA1 service\n during the fetching process
+Entity3 --> Entity2: Placeholder Message Delivery Confirmation
+deactivate Entity3
+Entity2 -> Entity2: Dequeue Placeholder Message request
+Entity2 --> Entity2: Placeholder Message request dequeued
+deactivate Entity2
 
-'EntityB --> EntityA: Placeholder Message Forwarded Confirmation
-deactivate EntityB
+'Entity2 --> Entity1: Placeholder Message Forwarded Confirmation
+deactivate Entity2
 
 @enduml
 ```
@@ -519,7 +524,7 @@ The sequence diagram of this flow is self-explanatory. It outlines the process o
 
 ## Project Implementation
 
-We plan to implement this project as a proof of concept using Golang for the backend services, with a SQLite database serving as the data store. OpenAPI 3.1 documentation will be developed to ensure clear and standardized API references. For the frontend, we will use a Progressive Web App (PWA) built on the React framework, utilizing styled-components for styling. Additionally, a synchronization protocol will be designed to coordinate communication between the backend and the frontend.
+We plan to implement this project as a proof of concept using Golang for the backend services, with a filesystem as the data store and SQLite for storing references and metadata of External Resources. OpenAPI 3.1 documentation will be developed to ensure clear and standardized API references. For the frontend, we will create a Progressive Web App (PWA) using the React framework, utilizing styled-components for styling. Additionally, we will design a synchronization protocol with polling to sync a Placeholder Message in the PWA with the mailbox.
 
 ## Future Work
 
