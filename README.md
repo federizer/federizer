@@ -4,12 +4,12 @@ Email has long been the primary means of exchanging important information. It se
 
 We introduce the Federizer Project, an Internet mail system built on a modernized architecture. It enables users to exchange messages, documents, books, photos, podcasts, and videos via the Internet. By redefining the foundation of email, the Federizer Project delivers the efficiency, security, and scalability needed to meet today’s communication demands.
 
-## Architecture
+## Components
 
-![Architecture](images/architecture.svg)
+![Components](images/components.svg)
 
 <p class="figure">
-    Fig.&nbsp;1.&emsp;Architecture of the Federizer Project.
+    Fig.&nbsp;1.&emsp;Components diagram of the Federizer Project.
 </p>
 
 
