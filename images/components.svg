@@ -1915,7 +1915,7 @@
       </g>
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id19">
-        <rect class="BoundingBox" stroke="none" fill="none" x="29215" y="601" width="4559" height="857"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="29215" y="601" width="4559" height="856"/>
         <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="29466" y="1225"><tspan font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">bob@example.org</tspan></tspan></tspan></text>
        </g>
       </g>
@@ -2054,7 +2054,7 @@
       </g>
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id28">
-        <rect class="BoundingBox" stroke="none" fill="none" x="3553" y="4375" width="1469" height="771"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="3553" y="4375" width="1468" height="771"/>
         <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="3804" y="4928"><tspan font-family="Liberation Sans, sans-serif" font-size="423px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Uses</tspan></tspan></tspan></text>
        </g>
       </g>
@@ -2067,7 +2067,7 @@
       </g>
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id30">
-        <rect class="BoundingBox" stroke="none" fill="none" x="30011" y="4375" width="1468" height="771"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="30011" y="4375" width="1469" height="771"/>
         <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="30262" y="4928"><tspan font-family="Liberation Sans, sans-serif" font-size="423px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Uses</tspan></tspan></tspan></text>
        </g>
       </g>
@@ -2141,7 +2141,7 @@
       </g>
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id40">
-        <rect class="BoundingBox" stroke="none" fill="none" x="25408" y="7875" width="2527" height="1279"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="25408" y="7875" width="2527" height="1280"/>
         <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="25659" y="8428"><tspan font-family="Liberation Sans, sans-serif" font-size="423px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Accesses</tspan></tspan></tspan><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="25659" y="8936"><tspan font-family="Liberation Sans, sans-serif" font-size="423px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Resources</tspan></tspan></tspan></text>
        </g>
       </g>
@@ -2153,7 +2153,7 @@
       </g>
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id42">
-        <rect class="BoundingBox" stroke="none" fill="none" x="23250" y="13075" width="3869" height="771"/>
+        <rect class="BoundingBox" stroke="none" fill="none" x="23249" y="13075" width="3870" height="771"/>
         <text class="SVGTextShape"><tspan class="TextParagraph"><tspan class="TextPosition" x="23501" y="13628"><tspan font-family="Liberation Sans, sans-serif" font-size="423px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Stores Resources</tspan></tspan></tspan></text>
        </g>
       </g>
@@ -2171,14 +2171,14 @@
       </g>
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id45">
-        <rect class="BoundingBox" stroke="none" fill="none" x="11664" y="6875" width="3627" height="771"/>
-        <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="11915" y="7428"><tspan font-family="Liberation Sans, sans-serif" font-size="423px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Exchange Token</tspan></tspan></tspan></text>
+        <rect class="BoundingBox" stroke="none" fill="none" x="11661" y="6875" width="3634" height="771"/>
+        <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="11912" y="7428"><tspan font-family="Liberation Sans, sans-serif" font-size="423px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Token </tspan></tspan><tspan class="TextPosition" x="13159" y="7428"><tspan font-family="Liberation Sans, sans-serif" font-size="423px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Exchange</tspan></tspan></tspan></text>
        </g>
       </g>
       <g class="com.sun.star.drawing.CustomShape">
        <g id="id46">
-        <rect class="BoundingBox" stroke="none" fill="none" x="23222" y="6875" width="3627" height="771"/>
-        <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="23473" y="7428"><tspan font-family="Liberation Sans, sans-serif" font-size="423px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Exchange Token</tspan></tspan></tspan></text>
+        <rect class="BoundingBox" stroke="none" fill="none" x="23218" y="6875" width="3635" height="771"/>
+        <text class="SVGTextShape"><tspan ooo:numbering-type="number-style" class="ListItem"><tspan class="TextPosition" x="23469" y="7428"><tspan font-family="Liberation Sans, sans-serif" font-size="423px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Token </tspan></tspan><tspan class="TextPosition" x="24716" y="7428"><tspan font-family="Liberation Sans, sans-serif" font-size="423px" font-weight="400" fill="rgb(0,0,0)" stroke="none" style="white-space: pre">Exchange</tspan></tspan></tspan></text>
        </g>
       </g>
      </g>
