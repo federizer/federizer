@@ -20,7 +20,7 @@ Owners of the External Resources can send each recipient a copy of the Placehold
 
 To discharge the External Resources to additional recipients specified in the "Forwarded-From" and "Forwarded-To" headers of the Placeholder Message, a chain of signed Placeholder Message Envelope Headers must be presented. As the Placeholder Message passes through each mailbox service, it accumulates a contextual sequence of signed Placeholder Message Envelope Headers. This chain enables the agents of these recipients to access and fetch the External Resources.
 
-Upon fetching the External Resources, each recipient gains ownership of the copies stored in their mailbox.
+Upon fetching the External Resources, each recipient gains ownership of the copies stored in their mailbox. This allows them to grant access to these resources to other recipients without any restrictions from the original sender.
 
 ## Concept
 
