@@ -12,7 +12,7 @@ We aim to create an Internet mail system, similar to the current email system, t
 
 Each email entity consists of a Placeholder Message and its associated External Resources—the message bodies stored within the mailbox.
 
-The Placeholder Message also serves as an access control list, granting access to the External Resources to the individuals specified in "From", "To", "Cc", and "Bcc" headers of the Placeholder Message. This implies that the External Resources are virtually confined to the Placeholder Message.
+The Placeholder Message also serves as an access control list, granting access to the External Resources to the individuals specified in "From", "To", "Cc", and "Bcc" headers of the Placeholder Message. This implies that the External Resources are confined to these individuals.
 
 Owners of the External Resources can send each recipient a copy of the Placeholder Message, signed by their agent. This action notifies the recipients' agents to fetch the corresponding External Resources.
 
