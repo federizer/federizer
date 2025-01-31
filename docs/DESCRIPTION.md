@@ -12,15 +12,13 @@ We aim to create an Internet mail system, similar to the current email system, t
 
 Each email entity consists of a Placeholder Message and its associated External Resources—the message bodies stored within the mailbox.
 
-The Placeholder Message also serves as an access control list, granting access to the External Resources to the individuals specified in "From", "To", "Cc", and "Bcc" headers of the Placeholder Message. This implies that the External Resources are confined to these individuals.
+The External Resources are confined to the individuals listed in the "From," "To," "Cc," and "Bcc" headers of the Placeholder Message. This implies that the Placeholder Message functions as an access control list, granting these individuals access to the External Resources.
 
 Owners of the External Resources can send each recipient a copy of the Placeholder Message, signed by their agent. This action notifies the recipients' agents to fetch the corresponding External Resources.
 
 ### Contextual Discharge
 
-As the Placeholder Message passes through each mailbox service, a chronological sequence of signed Placeholder Message Envelope Headers is formed.
-
-To discharge the External Resources to other recipients, specified in the "Forwarded-From" and "Forwarded-To" headers of the passing Placeholder Message, a chain of signed Placeholder Message Envelope Headers should be presented. This enables access and allows the other recipients to fetch the External Resources.
+To discharge the External Resources to additional recipients specified in the "Forwarded-From" and "Forwarded-To" headers of the Placeholder Message, a chain of signed Placeholder Message Envelope Headers must be presented. As the Placeholder Message passes through each mailbox service, it accumulates a contextual sequence of signed Placeholder Message Envelope Headers. This chain enables the agents of these recipients to access and fetch the External Resources.
 
 Upon fetching the External Resources, each recipient gains ownership of the copies stored in their mailbox.
 
